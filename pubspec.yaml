@@ -39,6 +39,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  firebase_core: any
+  firebase_ui_firestore: any
+  firebase_cloud_firestore: any
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
