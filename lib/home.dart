@@ -10,6 +10,13 @@ class Home extends StatelessWidget {
       appBar: AppBar(
         title: Text("WELCOME USER"),
       ),
+
+      body: Container(
+
+        child: Column(
+
+        ),
+      ),
     );
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'firestoremanager.dart';
 
-
 class Register extends StatefulWidget {
   const Register({super.key});
 
@@ -17,35 +16,39 @@ class _RegisterState extends State<Register> {
     TextEditingController _email = new TextEditingController();
     TextEditingController _firstname = new TextEditingController();
     return Scaffold(
-
-    body: Container(
-    width: double.infinity,
-    /*decoration: BoxDecoration(
+        body: Container(
+      width: double.infinity,
+      /*decoration: BoxDecoration(
     gradient: LinearGradient(
     colors: [Colors.blue,Colors.black ],
     begin: Alignment.topRight,
     end: Alignment.bottomLeft,
     ),
     ),*/
-    child: Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
-            padding: EdgeInsets.only(top: 70,bottom: 30),
-            child: Text("Welcome new User!!!",style: TextStyle(color: Colors.white,fontSize: 30),),
+            padding: EdgeInsets.only(top: 70, bottom: 30),
+            child: Text(
+              "Welcome new User!!!",
+              style: TextStyle(color: Colors.white, fontSize: 30),
+            ),
           ),
-          Text("Please enter your information",style: TextStyle(fontSize: 20)),
+          Text("Please enter your information", style: TextStyle(fontSize: 20)),
           SizedBox(
             height: 60,
             width: 280,
             child: TextField(
-              decoration: InputDecoration(hintText: 'Please enter your username'),
+              decoration:
+                  InputDecoration(hintText: 'Please enter your username'),
               controller: _username,
             ),
           ),
           TextField(
-            decoration: InputDecoration(hintText: 'Please enter your firstname'),
+            decoration:
+                InputDecoration(hintText: 'Please enter your firstname'),
             controller: _firstname,
           ),
           TextField(
@@ -58,48 +61,61 @@ class _RegisterState extends State<Register> {
           ),
           Row(
             children: [
-              ElevatedButton(onPressed: ()async{
-                int success;
-                FirestoreManager firestore = new FirestoreManager();
-                success = await firestore.createUser(_username.text,_email.text,_password.text,_firstname.text);
-                print(success);
-                if(success == 0){
-                showDialog(context: context, builder: (BuildContext context){
-                  return AlertDialog(
-                    title: const Text("You have successfully signed up!"),
-                    content: const SingleChildScrollView(
-                      child: ListBody(
-                  children: <Widget>[
-                  Text('We thank you for your patronage'),
-                  ],
-                      ),
-                    ),
-                    actions: [
-                      TextButton(onPressed: (){
-                        Navigator.pushNamed(context, '/login');
-                      }, child: Text("Go to login page"))
-                    ],
-                  );
-                  });
-                }
-                else{
-                    const snackBar = SnackBar(content: Text('Username already exists'));
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              ElevatedButton(
+                  onPressed: () async {
+                    int success = 20;
+                    FirestoreManager firestore = new FirestoreManager();
+                    if (_username.text.isNotEmpty &&
+                        _email.text.isNotEmpty &&
+                        _password.text.isNotEmpty &&
+                        _firstname.text.isNotEmpty) {
+                      success = await firestore.createUser(_username.text,
+                          _email.text, _password.text, _firstname.text);
 
+                      if (success == 0) {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text(
+                                    "You have successfully signed up!"),
+                                content: const SingleChildScrollView(
+                                  child: ListBody(
+                                    children: <Widget>[
+                                      Text('We thank you for your patronage'),
+                                    ],
+                                  ),
+                                ),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(context, '/login');
+                                      },
+                                      child: Text("Go to login page"))
+                                ],
+                              );
+                            });
+                      } else {// in case username already exists
+                        const snackBar = SnackBar(
+                            content:
+                                Text('Username already exists or is invalid'));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
+                    } else {//in case any of the fiels are empty
+                      const snackBar = SnackBar(
+                          content:
+                              Text('You must fill out every field'));
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     }
-              }, child: Text("Register")),
-
-
-              TextButton(onPressed: (){
-                Navigator.pushNamed(context, '/login');
-              }, child: Text("Already have an account?")
-              ),
-
-
+                  },
+                  child: Text("Register")),
+              TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/login');
+                  },
+                  child: Text("Already have an account?")),
             ],
           )
-
-
         ],
       ),
     ));
