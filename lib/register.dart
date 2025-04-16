@@ -83,7 +83,7 @@ class _RegisterState extends State<Register> {
                   });
                 }
                 else{
-                    const snackBar = SnackBar(content: Text('Username is already taken'));
+                    const snackBar = SnackBar(content: Text('Username already exists'));
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
                     }

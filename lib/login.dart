@@ -30,8 +30,24 @@ class _LoginState extends State<Login> {
               controller: _password,
             ),
 
-            ElevatedButton(onPressed: (){
-
+            ElevatedButton(onPressed: ()async{
+              FirestoreManager firestore = new FirestoreManager();
+              var user = await firestore.retrieveUser(_username.text);
+              if (user == null){
+                const snackBar = SnackBar(content: Text('Incorrect username or password'));
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              }else if(user['username']==_username.text && user['password']== _password.text){
+                Navigator.pushNamed(
+                  context,
+                  '/home',
+                  arguments: {
+                    'username': _username.text,
+                  },
+                );
+              }else{
+                const snackBar = SnackBar(content: Text('Incorrect username or password'));
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              }
             }, child: Text("Log In")),
 
             TextButton(onPressed: (){
@@ -46,4 +62,5 @@ class _LoginState extends State<Login> {
     );
   }
 }
+
 
