@@ -58,9 +58,12 @@ class _RegisterState extends State<Register> {
           ),
           Row(
             children: [
-              ElevatedButton(onPressed: (){
+              ElevatedButton(onPressed: ()async{
+                int success;
                 FirestoreManager firestore = new FirestoreManager();
-                firestore.createUser(_username.text,_email.text,_password.text,_firstname.text);
+                success = await firestore.createUser(_username.text,_email.text,_password.text,_firstname.text);
+                print(success);
+                if(success == 0){
                 showDialog(context: context, builder: (BuildContext context){
                   return AlertDialog(
                     title: const Text("You have successfully signed up!"),
@@ -77,9 +80,13 @@ class _RegisterState extends State<Register> {
                       }, child: Text("Go to login page"))
                     ],
                   );
+                  });
                 }
-                );
+                else{
+                    const snackBar = SnackBar(content: Text('Username is already taken'));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
+                    }
               }, child: Text("Register")),
 
 
