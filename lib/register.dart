@@ -10,7 +10,7 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   int selectedOption = 1;
-  String dietchoice = "Strenght";
+  String dietchoice = "Weight Gain";
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +20,7 @@ class _RegisterState extends State<Register> {
     TextEditingController _firstname = new TextEditingController();
     return Scaffold(
         body: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [Colors.greenAccent, Colors.grey], begin: Alignment.bottomLeft, end: Alignment.topRight )
-          ),
+      margin: EdgeInsets.symmetric(horizontal: 10),
       width: double.infinity,
       /*decoration: BoxDecoration(
     gradient: LinearGradient(
@@ -39,118 +37,75 @@ class _RegisterState extends State<Register> {
             padding: EdgeInsets.only(top: 70, bottom: 30),
             child: Text(
               "Welcome new User!!!",
-              style: TextStyle(color: Colors.black, fontSize: 30),
+              style: TextStyle(color: Colors.white, fontSize: 30),
             ),
           ),
-          Text("Let's Get You Started!", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700 )),
+          Text("Please enter your information", style: TextStyle(fontSize: 20)),
+
           Row(
             //--------------------------------------------start of radio
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-                  SizedBox(
-                    height: 50,
-                    width: 200,
-                    child: ListTile(
-                        title: const Text('Weight Gain'),
-                        leading: Radio<int>(
-                            value: 1,
-                            groupValue: selectedOption,
-                            onChanged: (value) {
-                              setState(() {
-                                selectedOption = value!;
-                                dietchoice = "WeightGain";
-                              });
-                            })),
-                  ),
               SizedBox(
                 height: 50,
                 width: 200,
                 child: ListTile(
-                    title: const Text('Fat loss'),
+                    title: const Text('Weight Gain'),
+                    leading: Radio<int>(
+                        value: 1,
+                        groupValue: selectedOption,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedOption = value!;
+                            dietchoice = "WeightGain";
+                          });
+                        })),
+              ),
+              SizedBox(
+                height: 50,
+                width: 200,
+                child: ListTile(
+                    title: const Text('Weight Loss'),
                     leading: Radio<int>(
                         value: 2,
                         groupValue: selectedOption,
                         onChanged: (value) {
                           setState(() {
                             selectedOption = value!;
-                            dietchoice = "FatLoss";
+                            dietchoice = "WeightLoss";
                           });
                         })),
               ),
-//-------------------------------------------end of radio
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 400,
-                child: TextField(
-                  decoration: InputDecoration(
-                      hintText: 'Username', border: OutlineInputBorder(), ),
-                  controller: _username,
-                ),
-              ),
-            ],
-          ),
+          //-------------------------------------------end of radio
+
           SizedBox(
-            height: 10,
+            height: 60,
+            width: 280,
+            child: TextField(
+              decoration:
+                  InputDecoration(hintText: 'Please enter your username'),
+              controller: _username,
+            ),
           ),
+
+          TextField(
+            decoration:
+                InputDecoration(hintText: 'Please enter your firstname'),
+            controller: _firstname,
+          ),
+          TextField(
+            decoration: InputDecoration(hintText: 'Please enter your email'),
+            controller: _email,
+          ),
+          TextField(
+            decoration: InputDecoration(hintText: 'Please enter your password'),
+            controller: _password,
+          ),
+
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 400,
-                child: TextField(
-                  decoration: InputDecoration(
-                      hintText: 'Firstname', border: OutlineInputBorder()),
-                  controller: _firstname,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 400,
-                child: TextField(
-                  decoration: InputDecoration(
-                      hintText: 'Email', border: OutlineInputBorder()),
-                  controller: _email,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 400,
-                child: TextField(
-                  decoration: InputDecoration(
-                      hintText: 'Password', border: OutlineInputBorder()),
-                  controller: _password,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Color(
-                    -634393319)
-                ),
                   onPressed: () async {
                     int success = 20;
                     FirestoreManager firestore = new FirestoreManager();
@@ -158,8 +113,12 @@ class _RegisterState extends State<Register> {
                         _email.text.isNotEmpty &&
                         _password.text.isNotEmpty &&
                         _firstname.text.isNotEmpty) {
-                      success = await firestore.createUser(_username.text,
-                          _email.text, _password.text, _firstname.text);
+                      success = await firestore.createUser(
+                          _username.text,
+                          _email.text,
+                          _password.text,
+                          _firstname.text,
+                          dietchoice);
 
                       if (success == 0) {
                         showDialog(
@@ -198,10 +157,7 @@ class _RegisterState extends State<Register> {
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     }
                   },
-                  child: Text("Register",style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),)),
-              SizedBox(
-                width: 50,
-              ),
+                  child: Text("Register")),
               TextButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/login');
