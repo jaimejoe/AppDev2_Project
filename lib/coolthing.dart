@@ -20,7 +20,7 @@ class _noiceState extends State<noice> {
   @override
   Widget build(BuildContext context) {
     final Stream<QuerySnapshot> _userStream =
-    firestoreManager.firestore.collection('recipes').snapshots();
+    firestoreManager.firestore.collection('recipes').where('category',isEqualTo:'WeightLoss').snapshots();
     return StreamBuilder(
         stream: _userStream,
         builder: (BuildContext context,
@@ -80,7 +80,7 @@ class _noiceState extends State<noice> {
 
                                     TextField(
                                       onChanged: (value) {
-                                        newCalorie = value as int;
+                                        newCalorie = int.parse(value);
                                       },
                                       decoration: InputDecoration(
                                         hintText:

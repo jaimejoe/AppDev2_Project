@@ -72,9 +72,9 @@ class FirestoreManager {
   retrieveRecipes() async {
     // Snapshot is the data from the document from the firestore
     CollectionReference _collectionRef =
-    FirebaseFirestore.instance.collection('collection');
+    FirebaseFirestore.instance.collection('recipes');
     try {
-      QuerySnapshot querySnapshot = await _collectionRef.get();
+      QuerySnapshot querySnapshot = await _collectionRef.where('category',isEqualTo:'WeightLoss' ).get();
       final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
       return allData;
     } catch (e) {
@@ -97,6 +97,8 @@ class FirestoreManager {
   }
 
   void updateRecipe(name,calories,category) async {
+      print(calories);
+      print(category);
     try {
       await firestore.collection('recipes').doc(name).update({
         'calories': calories,

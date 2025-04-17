@@ -35,7 +35,6 @@ class _DietingState extends State<Dieting> {
   Future<void> loadData() async {
     FirestoreManager firestoreManager = new FirestoreManager();
     diet = await getDiet();
-    print("Diet is: $diet");
     recipes = firestoreManager.retrieveRecipes();
 
     setState(() {}); // This will rebuild the UI if needed
