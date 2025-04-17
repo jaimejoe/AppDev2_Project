@@ -118,6 +118,28 @@ class FirestoreManager {
     }
   }
 
+  Future<int> createRecipe(name,calories,category) async {
+      print("nigger");
+    //check if the username already exists
+    var data = await retrieveRecipe(name);
+    if(data==null) {
+      try {
+        // i reckon we use the usernames as our id keys simply cuz its easy
+        await firestore.collection('recipes').doc(name).set({
+          'name': name,
+          'calories': calories,
+          'category': category,
+        });
+        return 0;
+      } catch (e) {
+        print(e);
+      }
+    }else {
+      return 1;
+    }
+    return 2;
+  }
+
 }
 
 

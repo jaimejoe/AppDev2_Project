@@ -132,7 +132,7 @@ class _noiceState extends State<noice> {
                 ],
               ),
             );
-          }).toList());;
+          }).toList());
     }
     );
   }

@@ -54,6 +54,10 @@ class _DietingState extends State<Dieting> {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController _name = new TextEditingController();
+    TextEditingController _category = new TextEditingController();
+    TextEditingController _calories = new TextEditingController();
+
     return Scaffold(
 
         appBar: AppBar(
@@ -61,9 +65,11 @@ class _DietingState extends State<Dieting> {
         ),
         body: Container(
           child: Column(
+
             children: [
               Text(diet),
                   new noice(),
+
 
 
                   /*GridView.builder(
@@ -88,9 +94,62 @@ class _DietingState extends State<Dieting> {
                 return Text(recipe.name);
               },
             )*/
+
             ],
+
           ),
-        ));
+
+        ),
+      floatingActionButton: FloatingActionButton(onPressed: (){
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text(
+                  "Add Recipe"),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    TextField(
+                        decoration: const InputDecoration(
+                          hintText:
+                          'Enter Dish name',
+                        ),
+                        controller: _name
+                    ),
+                    TextField(
+                        decoration: const InputDecoration(
+                          hintText:
+                          'Enter Category',
+                        ),
+                        controller: _category
+                    ),
+                    TextField(
+                        decoration: const InputDecoration(
+                          hintText:
+                          'Enter Calorie count',
+                        ),
+                        controller: _calories
+                    ),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      firestoreManager.createRecipe(_name.text, int.parse(_calories.text), _category.text);
+                      Navigator.of(context)
+                          .pop();
+
+                    },
+                    child: Text("Add Recipe"))
+              ],
+            );
+          });
+    },
+        child: Icon(Icons.add),
+    ),
+    );
 
   }
 
