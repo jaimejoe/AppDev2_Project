@@ -9,6 +9,9 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  int selectedOption = 1;
+  String dietchoice = "Strenght";
+
   @override
   Widget build(BuildContext context) {
     TextEditingController _username = new TextEditingController();
@@ -17,6 +20,7 @@ class _RegisterState extends State<Register> {
     TextEditingController _firstname = new TextEditingController();
     return Scaffold(
         body: Container(
+          margin: EdgeInsets.symmetric(horizontal: 10),
       width: double.infinity,
       /*decoration: BoxDecoration(
     gradient: LinearGradient(
@@ -59,6 +63,44 @@ class _RegisterState extends State<Register> {
             decoration: InputDecoration(hintText: 'Please enter your password'),
             controller: _password,
           ),
+
+
+          Row(//--------------------------------------------start of radio
+            children: [
+              SizedBox(
+                height: 50,
+                width: 200,
+                child: ListTile(
+                    title: const Text('Strenght Training'),
+                    leading: Radio<int>(
+                        value: 1,
+                        groupValue: selectedOption,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedOption = value!;
+                            dietchoice = "Strenght";
+                          });
+                        })),
+              ),
+              SizedBox(
+                height: 50,
+                width: 200,
+                child: ListTile(
+                    title: const Text('Fat loss'),
+                    leading: Radio<int>(
+                        value: 2,
+                        groupValue: selectedOption,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedOption = value!;
+                            dietchoice = "FatLoss";
+                          });
+                        })),
+              ),
+
+            ],
+          ),
+          //-------------------------------------------end of radio
           Row(
             children: [
               ElevatedButton(
@@ -95,16 +137,17 @@ class _RegisterState extends State<Register> {
                                 ],
                               );
                             });
-                      } else {// in case username already exists
+                      } else {
+                        // in case username already exists
                         const snackBar = SnackBar(
                             content:
                                 Text('Username already exists or is invalid'));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
-                    } else {//in case any of the fiels are empty
+                    } else {
+                      //in case any of the fiels are empty
                       const snackBar = SnackBar(
-                          content:
-                              Text('You must fill out every field'));
+                          content: Text('You must fill out every field'));
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     }
                   },
