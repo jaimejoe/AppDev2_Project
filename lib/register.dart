@@ -20,7 +20,9 @@ class _RegisterState extends State<Register> {
     TextEditingController _firstname = new TextEditingController();
     return Scaffold(
         body: Container(
-          margin: EdgeInsets.symmetric(horizontal: 10),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(colors: [Colors.greenAccent, Colors.grey], begin: Alignment.bottomLeft, end: Alignment.topRight )
+          ),
       width: double.infinity,
       /*decoration: BoxDecoration(
     gradient: LinearGradient(
@@ -37,51 +39,29 @@ class _RegisterState extends State<Register> {
             padding: EdgeInsets.only(top: 70, bottom: 30),
             child: Text(
               "Welcome new User!!!",
-              style: TextStyle(color: Colors.white, fontSize: 30),
+              style: TextStyle(color: Colors.black, fontSize: 30),
             ),
           ),
-          Text("Please enter your information", style: TextStyle(fontSize: 20)),
-          SizedBox(
-            height: 60,
-            width: 280,
-            child: TextField(
-              decoration:
-                  InputDecoration(hintText: 'Please enter your username'),
-              controller: _username,
-            ),
-          ),
-          TextField(
-            decoration:
-                InputDecoration(hintText: 'Please enter your firstname'),
-            controller: _firstname,
-          ),
-          TextField(
-            decoration: InputDecoration(hintText: 'Please enter your email'),
-            controller: _email,
-          ),
-          TextField(
-            decoration: InputDecoration(hintText: 'Please enter your password'),
-            controller: _password,
-          ),
-
-
-          Row(//--------------------------------------------start of radio
+          Text("Let's Get You Started!", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700 )),
+          Row(
+            //--------------------------------------------start of radio
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                height: 50,
-                width: 200,
-                child: ListTile(
-                    title: const Text('Strenght Training'),
-                    leading: Radio<int>(
-                        value: 1,
-                        groupValue: selectedOption,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedOption = value!;
-                            dietchoice = "Strenght";
-                          });
-                        })),
-              ),
+                  SizedBox(
+                    height: 50,
+                    width: 200,
+                    child: ListTile(
+                        title: const Text('Weight Gain'),
+                        leading: Radio<int>(
+                            value: 1,
+                            groupValue: selectedOption,
+                            onChanged: (value) {
+                              setState(() {
+                                selectedOption = value!;
+                                dietchoice = "WeightGain";
+                              });
+                            })),
+                  ),
               SizedBox(
                 height: 50,
                 width: 200,
@@ -97,13 +77,80 @@ class _RegisterState extends State<Register> {
                           });
                         })),
               ),
-
+//-------------------------------------------end of radio
             ],
           ),
-          //-------------------------------------------end of radio
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 400,
+                child: TextField(
+                  decoration: InputDecoration(
+                      hintText: 'Username', border: OutlineInputBorder(), ),
+                  controller: _username,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 400,
+                child: TextField(
+                  decoration: InputDecoration(
+                      hintText: 'Firstname', border: OutlineInputBorder()),
+                  controller: _firstname,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 400,
+                child: TextField(
+                  decoration: InputDecoration(
+                      hintText: 'Email', border: OutlineInputBorder()),
+                  controller: _email,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 400,
+                child: TextField(
+                  decoration: InputDecoration(
+                      hintText: 'Password', border: OutlineInputBorder()),
+                  controller: _password,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: Color(
+                    -634393319)
+                ),
                   onPressed: () async {
                     int success = 20;
                     FirestoreManager firestore = new FirestoreManager();
@@ -151,7 +198,10 @@ class _RegisterState extends State<Register> {
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     }
                   },
-                  child: Text("Register")),
+                  child: Text("Register",style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),)),
+              SizedBox(
+                width: 50,
+              ),
               TextButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/login');
