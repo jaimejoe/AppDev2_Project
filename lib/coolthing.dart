@@ -88,8 +88,7 @@ class _noiceState extends State<noice> {
                                       ),
                                       controller:
                                       TextEditingController(
-                                          text: calories as String),
-                                    ),
+                                          text: '$calories' ),                                    ),
 
                                     TextField(
                                       onChanged: (value) {
