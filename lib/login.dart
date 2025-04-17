@@ -40,9 +40,8 @@ class _LoginState extends State<Login> {
                 Navigator.pushNamed(
                   context,
                   '/home',
-                  arguments: {
-                    'username': _username.text,
-                  },
+                  arguments: _username.text,
+                  //if we need more args we could use { 'username':_username.text, ...}
                 );
               }else{
                 const snackBar = SnackBar(content: Text('Incorrect username or password'));
