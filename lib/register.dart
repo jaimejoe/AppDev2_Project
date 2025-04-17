@@ -10,7 +10,7 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   int selectedOption = 1;
-  String dietchoice = "Strenght";
+  String dietchoice = "Weight Gain";
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class _RegisterState extends State<Register> {
     TextEditingController _firstname = new TextEditingController();
     return Scaffold(
         body: Container(
-          margin: EdgeInsets.symmetric(horizontal: 10),
+      margin: EdgeInsets.symmetric(horizontal: 10),
       width: double.infinity,
       /*decoration: BoxDecoration(
     gradient: LinearGradient(
@@ -41,6 +41,44 @@ class _RegisterState extends State<Register> {
             ),
           ),
           Text("Please enter your information", style: TextStyle(fontSize: 20)),
+
+          Row(
+            //--------------------------------------------start of radio
+            children: [
+              SizedBox(
+                height: 50,
+                width: 200,
+                child: ListTile(
+                    title: const Text('Weight Gain'),
+                    leading: Radio<int>(
+                        value: 1,
+                        groupValue: selectedOption,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedOption = value!;
+                            dietchoice = "WeightGain";
+                          });
+                        })),
+              ),
+              SizedBox(
+                height: 50,
+                width: 200,
+                child: ListTile(
+                    title: const Text('Weight Loss'),
+                    leading: Radio<int>(
+                        value: 2,
+                        groupValue: selectedOption,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedOption = value!;
+                            dietchoice = "WeightLoss";
+                          });
+                        })),
+              ),
+            ],
+          ),
+          //-------------------------------------------end of radio
+
           SizedBox(
             height: 60,
             width: 280,
@@ -50,6 +88,7 @@ class _RegisterState extends State<Register> {
               controller: _username,
             ),
           ),
+
           TextField(
             decoration:
                 InputDecoration(hintText: 'Please enter your firstname'),
@@ -64,43 +103,6 @@ class _RegisterState extends State<Register> {
             controller: _password,
           ),
 
-
-          Row(//--------------------------------------------start of radio
-            children: [
-              SizedBox(
-                height: 50,
-                width: 200,
-                child: ListTile(
-                    title: const Text('Strenght Training'),
-                    leading: Radio<int>(
-                        value: 1,
-                        groupValue: selectedOption,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedOption = value!;
-                            dietchoice = "Strenght";
-                          });
-                        })),
-              ),
-              SizedBox(
-                height: 50,
-                width: 200,
-                child: ListTile(
-                    title: const Text('Fat loss'),
-                    leading: Radio<int>(
-                        value: 2,
-                        groupValue: selectedOption,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedOption = value!;
-                            dietchoice = "FatLoss";
-                          });
-                        })),
-              ),
-
-            ],
-          ),
-          //-------------------------------------------end of radio
           Row(
             children: [
               ElevatedButton(
@@ -111,8 +113,12 @@ class _RegisterState extends State<Register> {
                         _email.text.isNotEmpty &&
                         _password.text.isNotEmpty &&
                         _firstname.text.isNotEmpty) {
-                      success = await firestore.createUser(_username.text,
-                          _email.text, _password.text, _firstname.text);
+                      success = await firestore.createUser(
+                          _username.text,
+                          _email.text,
+                          _password.text,
+                          _firstname.text,
+                          dietchoice);
 
                       if (success == 0) {
                         showDialog(

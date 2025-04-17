@@ -18,7 +18,6 @@ class _HomeState extends State<Home> {
     if (args != null && args is String) {
       setState(() {
         username = args;
-        print(username);
       });
     }
   }
@@ -30,6 +29,7 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: Text("Welcome"),
       ),
+      //--------------------------------------------start drawer
       drawer: Drawer(
         child: ListView(
         // Important: Remove any padding from the ListView.
@@ -65,12 +65,24 @@ class _HomeState extends State<Home> {
               );
             },
           ),
+          ListTile(//sends you to profile
+            title: Row(
+              children: [Text("Diets"),Icon(Icons.fastfood_rounded)],
+            ),
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                '/dieting',
+                arguments: username,
+              );
+            },
+          ),
 
 
         ],
       ),
       ),
-
+//-----------------------------------end drawer
       body: Container(
 
         child: Column(
