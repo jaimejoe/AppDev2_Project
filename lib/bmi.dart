@@ -149,11 +149,11 @@ class _BMIState extends State<BMI> {
                                         onPressed: () {
                                           Navigator.pushNamed(
                                             context,
-                                            '/home',
+                                            '/bmi',
                                             arguments: username,
                                           );
                                         },
-                                        child: Text("Go back home"))
+                                        child: Text("Close"))
                                   ],
                                 );
                               });

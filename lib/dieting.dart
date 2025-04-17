@@ -136,7 +136,7 @@ class _DietingState extends State<Dieting> {
               actions: [
                 TextButton(
                     onPressed: () {
-                      firestoreManager.createRecipe(_name.text, int.parse(_calories.text), _category.text);
+                      firestoreManager.createRecipe(_name.text, int.parse(_calories.text), _category.text, username);
                       Navigator.of(context)
                           .pop();
 

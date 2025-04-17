@@ -120,8 +120,7 @@ class FirestoreManager {
     }
   }
 
-  Future<int> createRecipe(name,calories,category) async {
-      print("nigger");
+  Future<int> createRecipe(name,calories,category,username) async {
     //check if the username already exists
     var data = await retrieveRecipe(name);
     if(data==null) {
@@ -131,6 +130,7 @@ class FirestoreManager {
           'name': name,
           'calories': calories,
           'category': category,
+          'username': username,
         });
         return 0;
       } catch (e) {
