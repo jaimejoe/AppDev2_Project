@@ -159,7 +159,7 @@ class _RegisterState extends State<Register> {
                         _password.text.isNotEmpty &&
                         _firstname.text.isNotEmpty) {
                       success = await firestore.createUser(_username.text,
-                          _email.text, _password.text, _firstname.text);
+                          _email.text, _password.text, _firstname.text, dietchoice);
 
                       if (success == 0) {
                         showDialog(
