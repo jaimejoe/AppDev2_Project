@@ -35,9 +35,9 @@ class _HomeState extends State<Home> {
         // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: [
-          const DrawerHeader(
+          DrawerHeader(
             decoration: BoxDecoration(color: Colors.blue),
-            child: Text('Drawer Header'),
+            child: Text('Welcome $username'),
           ),
 
           ListTile(//sends you to profile
@@ -77,6 +77,7 @@ class _HomeState extends State<Home> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+
 
           ],
         ),
