@@ -1,22 +1,25 @@
 class Recipe {
+  final String id;
   final String name;
   final String images;
-  final double rating;
-  final String totalTime;
+  final String category;
+  final String instructions;
 
   factory Recipe.fromJson(dynamic json) {
     return Recipe(
-        name: json['name'] as String,
-        images: json['images'][0]['hostedLargeUrl'] as String,
-        rating: json['rating'] as double,
-        totalTime: json['totalTime'] as String);
+        id: json['idMeal'] as String,
+        name: json['strMeal'] as String,
+        images: json['strMealThumb'] as String,
+        category: json['strCategory'] as String,
+        instructions: json['strInstructions'] as String);
   }
 
   Recipe(
-      {required this.name,
+      {required this.id,
+        required this.name,
         required this.images,
-        required this.rating,
-        required this.totalTime});
+        required this.category,
+        required this.instructions});
 
   static List<Recipe> recipesFromSnapshot(List snapshot) {
     return snapshot.map((data) {
@@ -26,6 +29,6 @@ class Recipe {
 
   @override
   String toString() {
-    return 'Recipe {name: $name, image: $images, rating: $rating, totalTime: $totalTime}';
+    return 'Recipe {id:$id, name: $name, image: $images, category: $category, instructions: $instructions}';
   }
 }

@@ -21,6 +21,7 @@ class _RecipePageState extends State<RecipePage> {
 
   Future<void> getRecipes() async {
     _recipes = await RecipeApi.getRecipe();
+    print(_recipes);
     setState(() {
       _isLoading = false;
     });
@@ -34,6 +35,7 @@ class _RecipePageState extends State<RecipePage> {
         itemCount: _recipes.length,
         itemBuilder: (context, index) {
           return RecipeCard(
+
             recipe: _recipes[index],
           );
         });

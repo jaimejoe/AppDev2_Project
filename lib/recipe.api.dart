@@ -4,22 +4,24 @@ import 'recipe.dart';
 
 class RecipeApi {
   static Future<List<Recipe>> getRecipe() async {
-    var uri = Uri.https('yummly2.p.rapidapi.com', '/feeds/list',
-        {"limit": "18", "start": "0", "tag": "list.recipe.popular"});
+    // Proper URI construction
+    var uri = Uri.parse('https://www.themealdb.com/api/json/v1/1/search.php?s=salad');
 
-    final response = await http.get(uri, headers: {
-      "x-rapidapi-key": "45e0c9d2b3mshc1501d58e086a44p1359d8jsnc03e2660ece8",
-      "x-rapidapi-host": "yummly2.p.rapidapi.com",
-      "useQueryString": "true"
-    });
+    // Await the GET request
+    final response = await http.get(uri);
 
-    Map data = jsonDecode(response.body);
-    List temp = [];
+    if (response.statusCode == 200) {
+      // Decode JSON response
+      Map<String, dynamic> data = jsonDecode(response.body);
 
-    for (var i in data['feed']) {
-      temp.add(i['content']['details']);
+      List<dynamic> meals = data['meals'];
+      print(meals);
+
+      // Convert each meal into a Recipe object
+
+      return Recipe.recipesFromSnapshot(meals);
+    } else {
+      throw Exception('Failed to load recipes');
     }
-
-    return Recipe.recipesFromSnapshot(temp);
   }
 }

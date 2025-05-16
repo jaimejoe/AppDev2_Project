@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'recipe.dart';
+import 'firestoremanager.dart';
 
 class RecipeCard extends StatelessWidget {
   final Recipe recipe;
+  String username = '';
 
-  const RecipeCard({super.key, required this.recipe});
 
+
+  RecipeCard({super.key, required this.recipe});
+  FirestoreManager firestoreManager = new FirestoreManager();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -70,7 +74,8 @@ class RecipeCard extends StatelessWidget {
                               color: Colors.orange, size: 16),
                           const SizedBox(width: 4),
                           Text(
-                            recipe.rating.toString(),
+                            //recipe.category.toString(),
+                            '4/5',
                             style: const TextStyle(color: Colors.orange),
                           ),
                         ],
@@ -78,7 +83,7 @@ class RecipeCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 10,width: double.infinity,),
                 // Cook time at the bottom left
                 Row(
                   children: [
@@ -88,13 +93,19 @@ class RecipeCard extends StatelessWidget {
                       size: 18,
                     ),
                     const SizedBox(width: 5),
-                    Text(
-                      recipe.totalTime,
+
+                    ElevatedButton(onPressed: (){
+                      firestoreManager.addFavoriteRecipe(username,recipe.name,recipe.id);
+                    }, child: Text("Add to favorites"))
+
+                    /*Text(
+                      //recipe.instructions,
+                      'good',
                       style: const TextStyle(
                         fontSize: 14,
                         color: Colors.black54,
                       ),
-                    ),
+                    ),*/
                   ],
                 ),
               ],

@@ -42,6 +42,21 @@ class FirestoreManager {
       print(e);
     }
   }
+  addFavoriteRecipe(username,dishname,mealid)async{
+      try {
+        // i reckon we use the usernames as our id keys simply cuz its easy
+        await firestore.collection('favoriteRecipes').doc().set({
+          'name': dishname,
+          'recipeID': mealid,
+          'username': username,
+        });
+        return 0;
+      } catch (e) {
+        return 1;
+        print(e);
+      }
+
+  }
 
   //to be tested
   void updateUser(username,column,newdata) async {

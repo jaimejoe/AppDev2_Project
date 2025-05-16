@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:final_project_newest/dieting.dart';
 import 'package:flutter/material.dart';
 import 'firestoremanager.dart';
 
@@ -32,6 +33,7 @@ class _BMRState extends State<BMR> {
   double bmi = 0;
   int selectedOption = 1;
   String dietchoice = "Strenght";
+  FirestoreManager firestoreManager = new FirestoreManager();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -168,6 +170,7 @@ class _BMRState extends State<BMR> {
                                   actions: [
                                     TextButton(
                                         onPressed: () {
+                                          firestoreManager.updateUser(username, 'bmr',bmi.toStringAsFixed(0) );
                                           Navigator.pushNamed(
                                             context,
                                             '/home',

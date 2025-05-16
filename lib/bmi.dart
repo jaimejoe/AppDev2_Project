@@ -29,6 +29,7 @@ class _BMIState extends State<BMI> {
   TextEditingController _age = new TextEditingController();
   TextEditingController _height = new TextEditingController();
   TextEditingController _weight = new TextEditingController();
+  FirestoreManager firestoreManager = new FirestoreManager();
   double bmi = 0;
   @override
   Widget build(BuildContext context) {
@@ -147,6 +148,7 @@ class _BMIState extends State<BMI> {
                                   actions: [
                                     TextButton(
                                         onPressed: () {
+                                          firestoreManager.updateUser(username, 'bmi',bmi.toStringAsFixed(1) );
                                           Navigator.pushNamed(
                                             context,
                                             '/home',
