@@ -44,7 +44,7 @@ class FirestoreManager {
   }
 
   //to be tested
-  void updateUser(username,column,newdata) async {
+  Future<void> updateUser(username,column,newdata) async {
     try {
       firestore.collection('users').doc(username).update({
         '$column': '$newdata'
@@ -54,6 +54,17 @@ class FirestoreManager {
       print(e);
     }
   }
+
+  // Future<void> addBmiField(String username, double bmr) async {
+  //   try {
+  //     await FirebaseFirestore.instance.collection('users').doc(username).update({
+  //       'bmi': bmr,
+  //     });
+  //     print('BMR field added/updated successfully.');
+  //   } catch (e) {
+  //     print('Error updating BMR field: $e');
+  //   }
+  // }
   //to actually be made
   deleteUser(username) async {
     // Snapshot is the data from the document from the firestore
@@ -66,6 +77,8 @@ class FirestoreManager {
       print(e);
     }
   }
+
+
 
   //--------------------------------------------end of user area start of recipes
 //this method retrieves all recipes

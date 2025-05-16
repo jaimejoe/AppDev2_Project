@@ -10,6 +10,33 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("Profile"),
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 300,
+              child: Card(
+                child: Column(
+                  children: [
+                    ListTile(
+                      title: Text(
+                        "BMI",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

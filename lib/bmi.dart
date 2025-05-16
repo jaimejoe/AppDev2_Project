@@ -12,6 +12,7 @@ class BMI extends StatefulWidget {
 class _BMIState extends State<BMI> {
   //this whole section receives the arg username------------------------------
   String username = '';
+  FirestoreManager firestore = new FirestoreManager();
 
   @override
   void didChangeDependencies() {
@@ -104,6 +105,7 @@ class _BMIState extends State<BMI> {
                           bmi = double.parse(_weight.text) /
                               pow(double.parse(_height.text) / 100, 2);
                           print(bmi);
+                          // firestore.addBmiField(username, bmi);
                           String message = "";
                           if (bmi > 40) {
                             message =
