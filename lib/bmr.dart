@@ -2,14 +2,15 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'firestoremanager.dart';
 
-class BMI extends StatefulWidget {
-  const BMI({super.key});
+
+class BMR extends StatefulWidget {
+  const BMR({super.key});
 
   @override
-  State<BMI> createState() => _BMIState();
+  State<BMR> createState() => _BMRState();
 }
 
-class _BMIState extends State<BMI> {
+class _BMRState extends State<BMR> {
   //this whole section receives the arg username------------------------------
   String username = '';
 
@@ -24,12 +25,13 @@ class _BMIState extends State<BMI> {
       });
     }
   }
-
-  //-------------------------------------------------------------------------
+//-------------------------------------------------------------------------
   TextEditingController _age = new TextEditingController();
   TextEditingController _height = new TextEditingController();
   TextEditingController _weight = new TextEditingController();
   double bmi = 0;
+  int selectedOption = 1;
+  String dietchoice = "Strenght";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +49,7 @@ class _BMIState extends State<BMI> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              'BMI CALCULATOR',
+              'BMR CALCULATOR',
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20),
@@ -62,6 +64,48 @@ class _BMIState extends State<BMI> {
               ),
               child: Column(
                 children: [
+                //--------------------------------------------start of radio
+                  SizedBox(
+                    width:700,
+                      child:
+                Row(
+
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 50,
+                    width: 160,
+                    child: ListTile(
+                        title: const Text('Male'),
+                        leading: Radio<int>(
+                            value: 1,
+                            groupValue: selectedOption,
+                            onChanged: (value) {
+                              setState(() {
+                                selectedOption = value!;
+                                dietchoice = "Male";
+                              });
+                            })),
+                  ),
+                  SizedBox(
+                    height: 50,
+                    width: 160,
+                    child: ListTile(
+                        title: const Text('Female'),
+                        leading: Radio<int>(
+                            value: 2,
+                            groupValue: selectedOption,
+                            onChanged: (value) {
+                              setState(() {
+                                selectedOption = value!;
+                                dietchoice = "Female";
+                              });
+                            })),
+                  ),
+                ]
+                )),
+//-------------------------------------------end of radio
                   // Age field
                   TextField(
                     textAlign: TextAlign.center,
@@ -101,33 +145,10 @@ class _BMIState extends State<BMI> {
                       onPressed: () {
                         if (_height.text.isNotEmpty &&
                             _weight.text.isNotEmpty) {
-                          bmi = double.parse(_weight.text) /
-                              pow(double.parse(_height.text) / 100, 2);
-                          print(bmi);
-                          String message = "";
-                          if (bmi > 40) {
-                            message =
-                                "over 40 you are considered class 3 obese";
-                          }
-                          if (bmi < 40) {
-                            message =
-                                "between 35 and 39.9 then you are considered a class 2 obese";
-                          }
-                          if (bmi < 35) {
-                            message =
-                                "between 30 and 34.9 then you are considered a class 1 obese";
-                          }
-                          if (bmi < 30) {
-                            message =
-                                "between 25 and 29.5 then you are considered overweight";
-                          }
-                          if (bmi < 25) {
-                            message =
-                                "between 18.5 and 24.9 then you have normal weight";
-                          }
-                          if (bmi < 18.5) {
-                            message =
-                                "less than 18.5 you are considered underweight";
+                          if(selectedOption==1){
+                            bmi = ((13.397*(double.parse(_weight.text)))+(4.799*(double.parse(_height.text)))+(-5.677*double.parse(_age.text)))+88.362;
+                          }else{
+                            bmi = 447.593+(9.247*(double.parse(_weight.text))+3.098*(double.parse(_height.text))-4.330*double.parse(_age.text));
                           }
 
                           //under 18.5 which means you're considered underweight
@@ -136,11 +157,11 @@ class _BMIState extends State<BMI> {
                               builder: (BuildContext context) {
                                 return AlertDialog(
                                   title: Text(
-                                      "You're BMI is ${bmi.toStringAsFixed(1)}"),
+                                      "You're BMR is ${bmi.toStringAsFixed(0)}"),
                                   content: SingleChildScrollView(
                                     child: ListBody(
                                       children: <Widget>[
-                                        Text('Since your bmi is $message'),
+                                        Text(''),
                                       ],
                                     ),
                                   ),
@@ -167,15 +188,7 @@ class _BMIState extends State<BMI> {
                 ],
               ),
             ),
-            // TextButton(
-            //     onPressed: () {
-            //       Navigator.pushNamed(
-            //         context,
-            //         '/home',
-            //         arguments: username,
-            //       );
-            //     },
-            //     child: Text("Go back Home"))
+
           ],
         ),
       ),
