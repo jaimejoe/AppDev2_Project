@@ -8,6 +8,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'login.dart';
 import 'profile.dart';
 import 'dieting.dart';
+import 'bmr.dart';
+import 'recipepage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,6 +39,8 @@ class MyApp extends StatelessWidget {
         '/profile':(context) => Profile(),//to be made
         '/bmi':(context) => BMI(),
         '/dieting':(context) => Dieting(),
+        '/bmr':(context) => BMR(),
+        '/recipes':(context) => RecipePage(),
       },
     );
   }

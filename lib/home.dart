@@ -53,7 +53,7 @@ class _HomeState extends State<Home> {
             },
           ),
 
-          ListTile(//sends you to profile
+          ListTile(//sends you to BMI calculator
             title: Row(
               children: [Text("Calculate BMI"),Icon(Icons.calculate)],
             ),
@@ -65,7 +65,19 @@ class _HomeState extends State<Home> {
               );
             },
           ),
-          ListTile(//sends you to profile
+          ListTile(//sends you to BMR calculator
+            title: Row(
+              children: [Text("Calculate BMR"),Icon(Icons.calculate)],
+            ),
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                '/bmr',
+                arguments: username,
+              );
+            },
+          ),
+          ListTile(//sends you to saved recipes
             title: Row(
               children: [Text("Diets"),Icon(Icons.fastfood_rounded)],
             ),
@@ -77,7 +89,18 @@ class _HomeState extends State<Home> {
               );
             },
           ),
-
+          ListTile(//sends you to recipes
+            title: Row(
+              children: [Text("Recipes"),Icon(Icons.fastfood_rounded)],
+            ),
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                '/recipes',
+                arguments: username,
+              );
+            },
+          ),
 
         ],
       ),
