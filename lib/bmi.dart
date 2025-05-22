@@ -12,7 +12,6 @@ class BMI extends StatefulWidget {
 class _BMIState extends State<BMI> {
   //this whole section receives the arg username------------------------------
   String username = '';
-  FirestoreManager firestore = new FirestoreManager();
 
   @override
   void didChangeDependencies() {
@@ -30,6 +29,7 @@ class _BMIState extends State<BMI> {
   TextEditingController _age = new TextEditingController();
   TextEditingController _height = new TextEditingController();
   TextEditingController _weight = new TextEditingController();
+  FirestoreManager firestoreManager = new FirestoreManager();
   double bmi = 0;
   @override
   Widget build(BuildContext context) {
@@ -105,33 +105,32 @@ class _BMIState extends State<BMI> {
                           bmi = double.parse(_weight.text) /
                               pow(double.parse(_height.text) / 100, 2);
                           print(bmi);
-                          // firestore.addBmiField(username, bmi);
                           String message = "";
                           if (bmi > 40) {
                             message =
-                                "over 40 you are considered class 3 obese";
+                            "over 40 you are considered class 3 obese";
                           }
                           if (bmi < 40) {
                             message =
-                                "between 35 and 39.9 then you are considered a class 2 obese";
+                            "between 35 and 39.9 then you are considered a class 2 obese";
                           }
                           if (bmi < 35) {
                             message =
-                                "between 30 and 34.9 then you are considered a class 1 obese";
+                            "between 30 and 34.9 then you are considered a class 1 obese";
                           }
                           if (bmi < 30) {
                             message =
-                                "between 25 and 29.5 then you are considered overweight";
+                            "between 25 and 29.5 then you are considered overweight";
                           }
                           if (bmi < 25) {
                             message =
-                                "between 18.5 and 24.9 then you have normal weight";
+                            "between 18.5 and 24.9 then you have normal weight";
                           }
                           if (bmi < 18.5) {
                             message =
-                                "less than 18.5 you are considered underweight";
+                            "less than 18.5 you are considered underweight";
                           }
-
+                          firestoreManager.addBMI(username, bmi);
                           //under 18.5 which means you're considered underweight
                           showDialog(
                               context: context,
@@ -151,7 +150,7 @@ class _BMIState extends State<BMI> {
                                         onPressed: () {
                                           Navigator.pushNamed(
                                             context,
-                                            '/bmi',
+                                            '/home',
                                             arguments: username,
                                           );
                                         },

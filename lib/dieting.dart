@@ -13,6 +13,8 @@ class _DietingState extends State<Dieting> {
   String username = '';
   var diet = '';
   List recipes = [];
+  int selectedOption = 1;
+  String dietChoice = '';
 
   void initState() {
     super.initState();
@@ -43,12 +45,11 @@ class _DietingState extends State<Dieting> {
   Future<String> getDiet() async {
     FirestoreManager firestore = new FirestoreManager();
     var user = await firestore.retrieveUser(username);
-    if(user['diet']=="WeightGain"){
+    if (user['diet'] == "WeightGain") {
       return "WeightGain";
-    }else{
+    } else {
       return "WeightLoss";
     }
-
   }
 
   @override
@@ -58,20 +59,16 @@ class _DietingState extends State<Dieting> {
     TextEditingController _calories = new TextEditingController();
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Dieting"),
+      ),
+      body: Container(
+        child: Column(
+          children: [
+            Text(diet),
+            new noice(),
 
-        appBar: AppBar(
-          title: Text("Dieting"),
-        ),
-        body: Container(
-          child: Column(
-
-            children: [
-              Text(diet),
-                  new noice(),
-
-
-
-                  /*GridView.builder(
+            /*GridView.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 4,
                         mainAxisSpacing: 10,
@@ -85,73 +82,77 @@ class _DietingState extends State<Dieting> {
                       }
                   )*/
 
-
-              /*FirestoreListView<Recipe>(
+            /*FirestoreListView<Recipe>(
               query: recipesCollection.orderBy('category'),
               itemBuilder: (context, snapshot) {
                 Recipe recipe = snapshot.data();
                 return Text(recipe.name);
               },
             )*/
-
-            ],
-
-          ),
-
+          ],
         ),
-      floatingActionButton: FloatingActionButton(onPressed: (){
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text(
-                  "Add Recipe"),
-              content: SingleChildScrollView(
-                child: ListBody(
-                  children: <Widget>[
-                    TextField(
-                        decoration: const InputDecoration(
-                          hintText:
-                          'Enter Dish name',
-                        ),
-                        controller: _name
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text("Add Recipe"),
+                  content: SingleChildScrollView(
+                    child: ListBody(
+                      children: <Widget>[
+                        TextField(
+                            decoration: const InputDecoration(
+                              hintText: 'Enter Dish name',
+                            ),
+                            controller: _name),
+                        ListTile(
+                            title: const Text('Weight Gain'),
+                            leading: Radio<int>(
+                                value: 1,
+                                groupValue: selectedOption,
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedOption = value!;
+                                    dietChoice = "Weight Gain";
+                                  });
+                                })),
+                        ListTile(
+                            title: const Text('Fat loss'),
+                            leading: Radio<int>(
+                                value: 2,
+                                groupValue: selectedOption,
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedOption = value!;
+                                    dietChoice = "FatLoss";
+                                  });
+                                })),
+                        TextField(
+                            decoration: const InputDecoration(
+                              hintText: 'Enter Calorie count',
+                            ),
+                            controller: _calories),
+                      ],
                     ),
-                    TextField(
-                        decoration: const InputDecoration(
-                          hintText:
-                          'Enter Category',
-                        ),
-                        controller: _category
-                    ),
-                    TextField(
-                        decoration: const InputDecoration(
-                          hintText:
-                          'Enter Calorie count',
-                        ),
-                        controller: _calories
-                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          firestoreManager.createRecipe(_name.text,
+                              int.parse(_calories.text), dietChoice, username);
+                          Navigator.of(context).pop();
+                        },
+                        child: Text("Add Recipe"))
                   ],
-                ),
-              ),
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      firestoreManager.createRecipe(_name.text, int.parse(_calories.text), _category.text, username);
-                      Navigator.of(context)
-                          .pop();
-
-                    },
-                    child: Text("Add Recipe"))
-              ],
-            );
-          });
-    },
+                );
+              });
+        },
         child: Icon(Icons.add),
-    ),
+      ),
     );
-
   }
-
 }
 
 class Recipe {
@@ -183,6 +184,3 @@ final recipesCollection =
           fromFirestore: (snapshot, _) => Recipe.fromJson(snapshot.data()!),
           toFirestore: (recipe, _) => recipe.toJson(),
         );
-
-
-

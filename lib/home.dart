@@ -1,3 +1,4 @@
+import 'package:final_project_newest/dieting.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -17,77 +18,106 @@ class _HomeState extends State<Home> {
     if (args != null && args is String) {
       setState(() {
         username = args;
+        firestoreManager.resetIfNewDay(username);
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    Future<double> currentCalorie =
+    firestoreManager.getCurrentCalorieCount(username);
+    Future<double> totalCalorie = firestoreManager.getTotalCalorieCount(username);
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Welcome"),
-      ),
-      //--------------------------------------------start drawer
-      drawer: Drawer(
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(color: Colors.blue),
-              child: Text('Welcome $username'),
-            ),
-            ListTile(
-              //sends you to profile
-              title: Row(
-                children: [Text("Profile"), Icon(Icons.person)],
-              ),
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  '/profile',
-                  arguments: username,
-                );
-              },
-            ),
-            ListTile(
-              //sends you to profile
-              title: Row(
-                children: [Text("Calculate BMI"), Icon(Icons.calculate)],
-              ),
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  '/bmi',
-                  arguments: username,
-                );
-              },
-            ),
-            ListTile(
-              //sends you to profile
-              title: Row(
-                children: [Text("Diets"), Icon(Icons.fastfood_rounded)],
-              ),
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  '/dieting',
-                  arguments: username,
-                );
-              },
-            ),
-          ],
+        appBar: AppBar(
+          title: Text("Welcome"),
         ),
-      ),
+        //--------------------------------------------start drawer
+        drawer: Drawer(
+          child: ListView(
+            // Important: Remove any padding from the ListView.
+            padding: EdgeInsets.zero,
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(color: Colors.blue),
+                child: Text('Welcome $username'),
+              ),
+
+              ListTile(//sends you to profile
+                title: Row(
+                  children: [Text("Profile"),Icon(Icons.person)],
+                ),
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/profile',
+                    arguments: username,
+                  );
+                },
+              ),
+
+              ListTile(//sends you to BMI calculator
+                title: Row(
+                  children: [Text("Calculate BMI"),Icon(Icons.calculate)],
+                ),
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/bmi',
+                    arguments: username,
+                  );
+                },
+              ),
+              ListTile(//sends you to BMR calculator
+                title: Row(
+                  children: [Text("Calculate BMR"),Icon(Icons.calculate)],
+                ),
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/bmr',
+                    arguments: username,
+                  );
+                },
+              ),
+              ListTile(//sends you to saved recipes
+                title: Row(
+                  children: [Text("Diets"),Icon(Icons.fastfood_rounded)],
+                ),
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/dieting',
+                    arguments: username,
+                  );
+                },
+              ),
+              ListTile(//sends you to recipes
+                title: Row(
+                  children: [Text("Recipes"),Icon(Icons.fastfood_rounded)],
+                ),
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/recipes',
+                    arguments: username,
+                  );
+                },
+              ),
+
+            ],
+          ),
+        ),
 //-----------------------------------end drawer
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
+        body: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // First Row
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
                     height: 150,
                     width: 300,
                     child: Card(
@@ -96,7 +126,8 @@ class _HomeState extends State<Home> {
                       child: InkWell(
                         splashColor: Colors.blue.withAlpha(30),
                         onTap: () {
-                          Navigator.pushNamed(context, "/dieting");
+                          Navigator.pushNamed(context, "/dieting",
+                              arguments: username);
                         },
                         child: Padding(
                           padding: EdgeInsets.all(16),
@@ -110,27 +141,31 @@ class _HomeState extends State<Home> {
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold),
                               ),
-                              Icon(Icons.fastfood)
+                              Icon(Icons.fastfood),
                             ],
                           ),
                         ),
                       ),
-                    ))
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
+                    ),
+                  ),
+                ],
+              ),
+
+              // Second Row
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
                     height: 150,
-                    width: 200,
+                    width: 250,
                     child: Card(
                       color: Colors.greenAccent,
                       clipBehavior: Clip.hardEdge,
                       child: InkWell(
                         splashColor: Colors.blue.withAlpha(30),
                         onTap: () {
-                          Navigator.pushNamed(context, "/bmi");
+                          Navigator.pushNamed(context, "/bmi",
+                              arguments: username);
                         },
                         child: Padding(
                           padding: EdgeInsets.all(16),
@@ -143,22 +178,24 @@ class _HomeState extends State<Home> {
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold),
                               ),
-                              Icon(Icons.calculate)
+                              Icon(Icons.calculate),
                             ],
                           ),
                         ),
                       ),
-                    )),
-                SizedBox(
+                    ),
+                  ),
+                  SizedBox(
                     height: 150,
-                    width: 200,
+                    width: 250,
                     child: Card(
                       color: Colors.greenAccent,
                       clipBehavior: Clip.hardEdge,
                       child: InkWell(
                         splashColor: Colors.blue.withAlpha(30),
                         onTap: () {
-                          Navigator.pushNamed(context, "/recipe");
+                          Navigator.pushNamed(context, "/recipe",
+                              arguments: username);
                         },
                         child: Padding(
                           padding: EdgeInsets.all(16),
@@ -171,17 +208,17 @@ class _HomeState extends State<Home> {
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold),
                               ),
-                              Icon(Icons.dining)
+                              Icon(Icons.dining),
                             ],
                           ),
                         ),
                       ),
-                    ))
-              ],
-            )
-          ],
-        ),
-      ),
-    );
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ));
   }
 }
