@@ -43,9 +43,8 @@ class _RegisterState extends State<Register> {
             ),
           ),
           Text("Let's Get You Started!", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700 )),
-      //--------------------------------------------start of radio
           Row(
-
+            //--------------------------------------------start of radio
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
                   SizedBox(

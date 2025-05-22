@@ -6,6 +6,25 @@ class RecipeCard extends StatelessWidget {
   final Recipe recipe;
   String username = '';
 
+  void _showInstructionsDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('${recipe.name} Instructions'),
+          content: SingleChildScrollView(
+            child: Text(recipe.instructions),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
 
   RecipeCard({super.key, required this.recipe});
@@ -94,10 +113,12 @@ class RecipeCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 5),
 
-                    ElevatedButton(onPressed: (){
-                      firestoreManager.addFavoriteRecipe(username,recipe.name,recipe.id);
-                    }, child: Text("Add to favorites"))
-
+                    ElevatedButton(
+                      onPressed: () => _showInstructionsDialog(context),
+                      child: Text("View Instructions"),
+                      style: ElevatedButton.styleFrom(
+                      ),
+                    ),
                     /*Text(
                       //recipe.instructions,
                       'good',

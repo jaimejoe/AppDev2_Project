@@ -11,8 +11,43 @@ class RecipePage extends StatefulWidget {
 }
 
 class _RecipePageState extends State<RecipePage> {
+  String username = '';
+  void showDescriptionDialog(BuildContext context, String description) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Recipe Description"),
+          content: Text(description),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text("Close"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final args = ModalRoute
+        .of(context)
+        ?.settings
+        .arguments;
+    if (args != null && args is String) {
+      setState(() {
+        username = args;
+      });
+    }
+  }
+
   List<Recipe> _recipes = [];
   bool _isLoading = true;
+
   @override
   void initState() {
     super.initState();
@@ -21,7 +56,6 @@ class _RecipePageState extends State<RecipePage> {
 
   Future<void> getRecipes() async {
     _recipes = await RecipeApi.getRecipe();
-    print(_recipes);
     setState(() {
       _isLoading = false;
     });
@@ -29,15 +63,20 @@ class _RecipePageState extends State<RecipePage> {
 
   @override
   Widget build(BuildContext context) {
-    return _isLoading
-        ? const Center(child: CircularProgressIndicator())
-        : ListView.builder(
-        itemCount: _recipes.length,
-        itemBuilder: (context, index) {
-          return RecipeCard(
-
-            recipe: _recipes[index],
-          );
-        });
+    final List<Recipe> recipes;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Recipes"),
+      ),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : ListView.builder(
+          itemCount: _recipes.length,
+          itemBuilder: (context, index) {
+            return RecipeCard(
+              recipe: _recipes[index],
+            );
+          }),
+    );
   }
 }

@@ -15,7 +15,6 @@ class RecipeApi {
       Map<String, dynamic> data = jsonDecode(response.body);
 
       List<dynamic> meals = data['meals'];
-      print(meals);
 
       // Convert each meal into a Recipe object
 

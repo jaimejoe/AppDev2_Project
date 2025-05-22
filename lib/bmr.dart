@@ -144,7 +144,7 @@ class _BMRState extends State<BMR> {
                     ],
                   ),
                   ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_height.text.isNotEmpty &&
                             _weight.text.isNotEmpty) {
                           if(selectedOption==1){
@@ -152,7 +152,11 @@ class _BMRState extends State<BMR> {
                           }else{
                             bmi = 447.593+(9.247*(double.parse(_weight.text))+3.098*(double.parse(_height.text))-4.330*double.parse(_age.text));
                           }
-
+                          String dietType = await firestoreManager.getDietType(username);
+                          if (dietType == "FatLoss") {
+                            await firestoreManager.matchTotalAndCurrent(username, bmi);
+                          }
+                          firestoreManager.addTotalCalorieCount(username, bmi);
                           //under 18.5 which means you're considered underweight
                           showDialog(
                               context: context,
